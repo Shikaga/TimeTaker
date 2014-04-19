@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="lib/jquery.js"></script>
 	<script type="text/javascript" src="lib/knockout.js"></script>
+	<script type="text/javascript" src="lib/socket.io.js"></script>
 
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="lib/require.js"></script>
@@ -57,6 +58,17 @@
 	require(['js/TextLogHandler'], function(TextLogHandler) {
 		new TextLogHandler(document.getElementById('textLog'));
 	})
+
+	var socket = io.connect(window.location.href);
+	socket.on('chat', function (data) {
+		console.log(data);
+	});
+
+	function setText() {
+		socket.emit("chat", {text: 'lol'});
+	}
+
+	setText();
 
 </script>
 
