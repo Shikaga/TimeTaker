@@ -1,5 +1,5 @@
 define(['js/TimestampGenerator'], function(TimestampGenerator) {
-        function TextLogHandler(node) {
+        function TextLogHandler() {
             this.logs = ko.observableArray();
             this.textField = ko.observable();
             this.addLog = function() {
@@ -9,7 +9,6 @@ define(['js/TimestampGenerator'], function(TimestampGenerator) {
                     this.textField("");
                 }
             }.bind(this);
-            ko.applyBindings(this,node);
         }
         return TextLogHandler;
 });

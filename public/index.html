@@ -1,8 +1,9 @@
 <html>
 <head>
-	<title>New Project</title>
+	<title>Time Taker</title>
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="lib/jquery.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="lib/knockout.js"></script>
 	<script type="text/javascript" src="lib/socket.io.js"></script>
 
@@ -23,31 +24,46 @@
 		<div class="panel-body">
 			<ul class="nav nav-pills">
 				<li><a href="#">Week View</a></li>
-				<li class="active" class=""><a href="#">Tomato Timer</a></li>
+				<li class=""><a href="#">Tomato Timer</a></li>
+				<li class="active" class=""><a href="#">Freeform Timer</a></li>
 				<li class=""><a href="#">Other</a></li>
 			</ul>
 		</div>
 	</div>
-	<div class="panel panel-default">
-		<div class="panel-body">
-			Basic panel example
+</div>
+<div id="freeform-panel">
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-default">Activity</button>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				Activity 1
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="#">Activity 1</a></li>
+				<li><a href="#">Activity 2</a></li>
+			</ul>
 		</div>
 	</div>
-</div>
-<div id="textLog">
-	<div id="main" style="overflow-y: auto" data-bind="foreach: logs">
-		<p>
-			<span data-bind="text: timestamp"></span>
-			<span>:</span>
-			<span data-bind="text: text"></span>
-		</p>
-	</div>
-	<div id="footer" class="navbar navbar-fixed-bottom container">
-		<div class="input-group">
-			<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog">
+	<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
+	<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
+
+	<div data-bind="with: textLogHandler">
+		<div id="main" style="overflow-y: auto" data-bind="foreach: logs">
+			<p>
+				<span data-bind="text: timestamp"></span>
+				<span>:</span>
+				<span data-bind="text: text"></span>
+			</p>
+		</div>
+		<div id="footer" class="navbar navbar-fixed-bottom container">
+			<div class="input-group">
+				<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" data-bind="click: addLog">Go!</button>
 				</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -55,8 +71,9 @@
 
 <script>
 	resizeTextlogArea();
-	require(['js/TextLogHandler'], function(TextLogHandler) {
-		new TextLogHandler(document.getElementById('textLog'));
+	require(['js/FreeformTimerHandler'], function(FreeformTimerHandler) {
+		var fth = new FreeformTimerHandler();
+		ko.applyBindings(fth,  document.getElementById('freeform-panel'))
 	})
 
 	var socket = io.connect(window.location.href);
