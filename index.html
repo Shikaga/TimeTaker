@@ -1,14 +1,12 @@
 <html>
 <head>
 	<title>New Project</title>
-	<link rel="stylesheet" href="css/main.css">
-	<script type="text/javascript" src="lib/mustache.js"></script>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="lib/jquery.js"></script>
 	<script type="text/javascript" src="lib/knockout.js"></script>
-	<script type="text/javascript" src="lib/ko.mustache.js"></script>
 
-	<script>
-		ko.setTemplateEngine(new ko.mustacheTemplateEngine());
-	</script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="lib/require.js"></script>
 
 	<script id="example-template" type="text/x-handlebars-template">
 		<div>
@@ -18,17 +16,47 @@
 
 </head>
 
-<body>
-<div id="testbar"><a class="testbar" href="test/test.html" target="_blank">Run the Tests!</a></div>
-<span id="example" data-bind="template: { name: 'example-template', foreach: exampleArray }"></span>
+<body class="container">
+<div id="header">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<ul class="nav nav-pills">
+				<li><a href="#">Week View</a></li>
+				<li class="active" class=""><a href="#">Tomato Timer</a></li>
+				<li class=""><a href="#">Other</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			Basic panel example
+		</div>
+	</div>
+</div>
+<div id="textLog">
+	<div id="main" style="overflow-y: auto" data-bind="foreach: logs">
+		<p>
+			<span data-bind="text: timestamp"></span>
+			<span>:</span>
+			<span data-bind="text: text"></span>
+		</p>
+	</div>
+	<div id="footer" class="navbar navbar-fixed-bottom container">
+		<div class="input-group">
+			<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" data-bind="click: addLog">Go!</button>
+				</span>
+		</div>
+	</div>
+</div>
 </body>
 
 <script>
-	function exampleClass() {
-		this.exampleArray = ko.observableArray([{value: 'lol'}, {value: 'example'}]);
-		ko.applyBindingsToNode(document.getElementById('example'), null, this);
-	}
-	var x = new exampleClass();
+	resizeTextlogArea();
+	require(['js/TextLogHandler'], function(TextLogHandler) {
+		new TextLogHandler(document.getElementById('textLog'));
+	})
 
 </script>
 
