@@ -27,7 +27,9 @@ define([], function() {
 	}
 
 	Timer.prototype.stop = function() {
-
+        clearInterval(this.timerInterval);
+        this.timeElapsedMilliseconds = 0;
+        this.output(this.getTimeOutput());
 	}
 
 	return Timer;

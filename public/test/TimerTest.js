@@ -188,4 +188,21 @@ require(['../js/Timer'], function(Timer) {
         fakeClock.restore();
     });
 
+    test( "Timer resets on stop", function() {
+        var fakeClock = sinon.useFakeTimers();
+
+        var timer = new Timer();
+        timer.start();
+
+        equal(timer.output(), "00:00");
+        fakeClock.tick(1000);
+        equal(timer.output(), "00:01");
+        timer.stop();
+        equal(timer.output(), "00:00");
+        fakeClock.tick(1000);
+        equal(timer.output(), "00:00");
+
+        fakeClock.restore();
+    });
+
 });

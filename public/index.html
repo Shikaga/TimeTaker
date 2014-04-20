@@ -32,34 +32,48 @@
 	</div>
 </div>
 <div id="freeform-panel">
-
-	<div class="btn-group">
-		<button type="button" class="btn btn-default">Activity</button>
+	<div>
 		<div class="btn-group">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				Activity 1
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<li><a href="#">Activity 1</a></li>
-				<li><a href="#">Activity 2</a></li>
-			</ul>
+			<button type="button" class="btn btn-default">Activity</button>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					Activity 1
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="#">Activity 1</a></li>
+					<li><a href="#">Activity 2</a></li>
+				</ul>
+			</div>
 		</div>
-	</div>
-	<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
-	<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
 
+		<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
+		<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
+		<span data-bind="text: timer.output"></span>
+	</div>
 	<div data-bind="with: textLogHandler">
-		<div id="main" style="overflow-y: auto" data-bind="foreach: logs">
-			<p>
-				<span data-bind="text: timestamp"></span>
-				<span>:</span>
-				<span data-bind="text: text"></span>
-			</p>
+		<div id="main" style="overflow-y: auto">
+			<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Session Header</h3>
+					</div>
+					<div class="panel-body">
+						<div data-bind="foreach: logs">
+							<p>
+								<span data-bind="text: timestamp"></span>
+								<span>:</span>
+								<span data-bind="text: text"></span>
+							</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</div>
 		<div id="footer" class="navbar navbar-fixed-bottom container">
 			<div class="input-group">
-				<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog">
+				<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog, enable: textFieldEnabled">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" data-bind="click: addLog">Go!</button>
 				</span>
