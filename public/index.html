@@ -19,38 +19,37 @@
 </head>
 
 <body class="container">
-<div id="header">
+<div id="header" data-bind="with: tabHandler">
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<ul class="nav nav-pills">
-				<li><a href="#">Week View</a></li>
-				<li class=""><a href="#">Tomato Timer</a></li>
-				<li class="active" class=""><a href="#">Freeform Timer</a></li>
-				<li class=""><a href="#">Other</a></li>
+				<li data-bind="css: {active: weekVisible}"><a href="#" data-bind="click: weekClicked">Week View</a></li>
+				<li data-bind="css: {active: activityVisible}"><a href="#" data-bind="click: activityClicked">Activities</a></li>
+				<li data-bind="css: {active: tomatoVisible}"><a href="#" data-bind="click: tomatoClicked">Tomato Timer</a></li>
+				<li data-bind="css: {active: freeformVisible}"><a href="#" data-bind="click: freeformClicked">Freeform Timer</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
-<div id="freeform-panel">
-	<div>
+<div id="freeform-panel" data-bind="visible: tabHandler.freeformVisible, with: freeformTimerHandler">
+	<div class="btn-group">
+		<button type="button" class="btn btn-default">Activity</button>
 		<div class="btn-group">
-			<button type="button" class="btn btn-default">Activity</button>
-			<div class="btn-group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-					Activity 1
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a href="#">Activity 1</a></li>
-					<li><a href="#">Activity 2</a></li>
-				</ul>
-			</div>
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				Activity 1
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="#">Activity 1</a></li>
+				<li><a href="#">Activity 2</a></li>
+			</ul>
 		</div>
-
-		<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
-		<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
-		<span data-bind="text: timer.output"></span>
 	</div>
+
+	<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
+	<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
+	<span data-bind="text: timer.output"></span>
+
 	<div data-bind="with: textLogHandler">
 		<div id="main" style="overflow-y: auto">
 			<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
@@ -85,9 +84,13 @@
 
 <script>
 	resizeTextlogArea();
-	require(['js/FreeformTimerHandler'], function(FreeformTimerHandler) {
-		var fth = new FreeformTimerHandler();
-		ko.applyBindings(fth,  document.getElementById('freeform-panel'))
+	require(['js/FreeformTimerHandler', 'js/TabHandler'], function(FreeformTimerHandler, TabHandler) {
+		function TimeTaker() {
+			this.freeformTimerHandler = new FreeformTimerHandler();
+			this.tabHandler = new TabHandler();
+		}
+		tt = new TimeTaker();
+		ko.applyBindings(tt,  document.body)
 	})
 
 	var socket = io.connect(window.location.href);
