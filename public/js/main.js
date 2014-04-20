@@ -2,9 +2,16 @@ function resizeTextlogArea() {
     var minHeight = 30; // Define a minimum height for the middle div
 
     var resizeMiddle = function() {
-        var h = $('body').height() - $('#footer').height() - $('#header').height() - 20;
+        console.log('?');
+        var h = $('body').height() - $('#freeform-footer').height() - $('#header').height() - 20;
         h = h > minHeight ? h : minHeight;
-        $('#main').height(h);
+
+        h2 = $('body').height() - $('#header').height() - 100;
+        h2 = h2 > minHeight ? h2 : minHeight;
+        console.log( $('body').height(),$('#header').height(),h2);
+
+        $('#freeform-main').height(h);
+        $('#activity-activities').height(h2);
     }
 
     $(document).ready(resizeMiddle);

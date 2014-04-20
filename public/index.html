@@ -31,6 +31,43 @@
 		</div>
 	</div>
 </div>
+<div data-bind="visible: tabHandler.activityVisible, with: activityHandler">
+	<div id="activity-panel" class="row">
+		<div class="col-md-4">
+			<div id="activity-activities" style="overflow: auto">
+				<div class="list-group" data-bind="foreach: activities">
+					<a href="#" class="list-group-item" data-bind="text: name, click: function() {$parent.selectActivity($data)}, css: {active: selected}"></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<button id="activity-add-button" type="button" class="btn btn-success" data-bind="click: addNewActivity">Add New Activity</button>
+			</div>
+		</div>
+		<div class="col-md-8" data-bind="with: selectedActivity">
+			<div class="input-group">
+				<span style="min-width:100px" class="input-group-addon">Name</span>
+				<input type="text" class="form-control" data-bind="value: name">
+			</div>
+			<br />
+			<div class="input-group">
+				<span style="min-width:100px" class="input-group-addon">Description</span>
+				<textarea class="form-control" data-bind="value: description"></textarea>
+			</div>
+			<br />
+			<div class="btn-group">
+				<button data-bind="style: {backgroundColor: color}" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					Color
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" data-bind="foreach: colors">
+					<li data-bind="style: {backgroundColor: $data}">
+						<a href="#" data-bind="text: $index, click: function() {$parent.setColor($data)}"></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</div>
 <div id="freeform-panel" data-bind="visible: tabHandler.freeformVisible, with: freeformTimerHandler">
 	<div class="btn-group">
 		<button type="button" class="btn btn-default">Activity</button>
@@ -51,7 +88,7 @@
 	<span data-bind="text: timer.output"></span>
 
 	<div data-bind="with: textLogHandler">
-		<div id="main" style="overflow-y: auto">
+		<div id="freeform-main" style="overflow-y: auto">
 			<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -70,7 +107,7 @@
 
 			</div>
 		</div>
-		<div id="footer" class="navbar navbar-fixed-bottom container">
+		<div id="freeform-footer" class="navbar navbar-fixed-bottom container">
 			<div class="input-group">
 				<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog, enable: textFieldEnabled">
 				<span class="input-group-btn">
@@ -84,9 +121,10 @@
 
 <script>
 	resizeTextlogArea();
-	require(['js/FreeformTimerHandler', 'js/TabHandler'], function(FreeformTimerHandler, TabHandler) {
+	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/TabHandler'], function(FreeformTimerHandler, ActivityHandler, TabHandler) {
 		function TimeTaker() {
 			this.freeformTimerHandler = new FreeformTimerHandler();
+			this.activityHandler = new ActivityHandler();
 			this.tabHandler = new TabHandler();
 		}
 		tt = new TimeTaker();
