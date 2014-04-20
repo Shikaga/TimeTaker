@@ -2,8 +2,7 @@ require.config({
     map: {
         '*': {
             'js/TimestampGenerator': 'MockTimestampGenerator',
-            'js/TextLogHandler': '../js/TextLogHandler',
-            'js/Timer': 'MockTimer'
+            'js/TextLogHandler': '../js/TextLogHandler'
         }
     }
 });
@@ -205,4 +204,46 @@ require(['../js/Timer'], function(Timer) {
         fakeClock.restore();
     });
 
+    test( "starts with current time shown for begin and end", function() {
+
+        var fakeClock = sinon.useFakeTimers(0); //00:00 1/1/1970
+
+        var timer = new Timer();
+        timer.start();
+        equal(timer.startTime(),"1:00 AM");
+        equal(timer.endTime(),"1:00 AM");
+
+        fakeClock.restore();
+    });
+
+    test( "startTime is set correctly", function() {
+
+        var fakeClock = sinon.useFakeTimers(10000000000); //18:46:40 26/4/1970
+
+        var timer = new Timer();
+        timer.start();
+        equal(timer.startTime(),"6:46 PM");
+        equal(timer.endTime(),"6:46 PM");
+
+
+        fakeClock.restore();
+    });
+
+    test( "after one minute end time increments", function() {
+
+        var fakeClock = sinon.useFakeTimers(0); //01:00:00 1/1/1970
+
+        var timer = new Timer();
+        timer.start();
+        equal(timer.endTime(),"1:00 AM");
+        fakeClock.tick(30000);
+        equal(timer.endTime(), "1:00 AM");
+        fakeClock.tick(30000);
+        equal(timer.endTime(), "1:01 AM");
+        fakeClock.tick(9 * 60000);
+        equal(timer.endTime(), "1:10 AM");
+
+
+        fakeClock.restore();
+    });
 });

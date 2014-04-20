@@ -1,7 +1,8 @@
 require.config({
     map: {
         '*': {
-            'js/TimestampGenerator': 'MockTimestampGenerator'
+            'js/TimestampGenerator': 'MockTimestampGenerator',
+            'js/Timer': 'MockTimer'
         }
     }
 });
@@ -19,20 +20,22 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
         equal(tlh.textFieldEnabled(),false);
     });
 
-    test("enables text log when session added", function() {
+    test("enables text log and timer when session added", function() {
         var tlh = new TextLogHandler(mockNode);
         tlh.textField('Log1');
         tlh.addSession(mockActivity);
         equal(tlh.sessions().length, 1);
         equal(tlh.sessions()[0].activity, mockActivity);
         equal(tlh.textFieldEnabled(),true);
+        equal(tlh.activeSession.timer.start.called,true);
     });
 
-    test("enables text log when session added", function() {
+    test("disabled text log and stop timer when session stopped", function() {
         var tlh = new TextLogHandler(mockNode);
         tlh.textField('Log1');
         tlh.addSession(mockActivity);
         tlh.stopSession();
+        equal(tlh.sessions()[0].timer.stop.called,true);
         equal(tlh.textFieldEnabled(),false);
     });
 

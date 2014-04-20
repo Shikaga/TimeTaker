@@ -2,6 +2,9 @@ define([], function() {
 	function Timer() {
         this.timerInterval = null;
 		this.output = ko.observable(this.getTimeOutput(0));
+
+        this.startTime = ko.observable(this.getEndTimeOutput());
+        this.endTime = ko.observable(this.getEndTimeOutput());
 	}
 
     Timer.prototype.getTimeOutput = function(timeElapsedInMilliseconds) {
@@ -18,11 +21,17 @@ define([], function() {
         }
     }
 
+    Timer.prototype.getEndTimeOutput = function() {
+        var rawTime = new Date().toLocaleTimeString();
+        return rawTime.substr(0, rawTime.length - 6) + "" + rawTime.substr(rawTime.length - 3);
+    }
+
 	Timer.prototype.start = function() {
         this.timeStarted = new Date().getTime();
         this.timerInterval = setInterval(function() {
             var timeElapsedMilliseconds = new Date().getTime() - this.timeStarted;
             this.output(this.getTimeOutput(timeElapsedMilliseconds));
+            this.endTime(this.getEndTimeOutput());
         }.bind(this),100);
 	}
 
