@@ -34,11 +34,16 @@
 <div data-bind="visible: tabHandler.activityVisible, with: activityHandler">
 	<div id="activity-panel" class="row">
 		<div class="col-md-4">
-			<div id="activity-activities" style="overflow: auto">
+
+			<div id="activity-activities" class="panel panel-default" style="overflow: auto">
+				<!-- Default panel contents -->
+				<div class="panel-heading">Activities</div>
 				<div class="list-group" data-bind="foreach: activitySelector.activities">
 					<a href="#" class="list-group-item" data-bind="text: name, click: function() {$parent.activitySelector.selectActivity($data)}, css: {active: selected}"></a>
 				</div>
+				<div class="panel-body"></div>
 			</div>
+
 			<div class="panel-body">
 				<button id="activity-add-button" type="button" class="btn btn-success" data-bind="click: activitySelector.addNewActivity">Add New Activity</button>
 			</div>
@@ -61,12 +66,12 @@
 				</button>
 				<ul class="dropdown-menu" data-bind="foreach: colors">
 					<li data-bind="style: {backgroundColor: $data}">
-						<a href="#" data-bind="text: $index, click: function() {$parent.setColor($data)}"></a></li>
+						<a href="#" data-bind="text: $index, click: function() {$parent.setColor($data)}"></a>
+					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
-
 </div>
 <div>
 
