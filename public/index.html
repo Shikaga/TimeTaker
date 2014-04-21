@@ -35,15 +35,15 @@
 	<div id="activity-panel" class="row">
 		<div class="col-md-4">
 			<div id="activity-activities" style="overflow: auto">
-				<div class="list-group" data-bind="foreach: activities">
-					<a href="#" class="list-group-item" data-bind="text: name, click: function() {$parent.selectActivity($data)}, css: {active: selected}"></a>
+				<div class="list-group" data-bind="foreach: activitySelector.activities">
+					<a href="#" class="list-group-item" data-bind="text: name, click: function() {$parent.activitySelector.selectActivity($data)}, css: {active: selected}"></a>
 				</div>
 			</div>
 			<div class="panel-body">
-				<button id="activity-add-button" type="button" class="btn btn-success" data-bind="click: addNewActivity">Add New Activity</button>
+				<button id="activity-add-button" type="button" class="btn btn-success" data-bind="click: activitySelector.addNewActivity">Add New Activity</button>
 			</div>
 		</div>
-		<div class="col-md-8" data-bind="with: selectedActivity">
+		<div class="col-md-8" data-bind="with: activitySelector.selectedActivity">
 			<div class="input-group">
 				<span style="min-width:100px" class="input-group-addon">Name</span>
 				<input type="text" class="form-control" data-bind="value: name">
@@ -68,51 +68,56 @@
 	</div>
 
 </div>
+<div>
+
+</div>
 <div id="freeform-panel" data-bind="visible: tabHandler.freeformVisible, with: freeformTimerHandler">
-	<div class="btn-group">
-		<button type="button" class="btn btn-default">Activity</button>
+	<div data-bind="visible: !freeformTimerVisible()" class="alert alert-info">Please add an activity in the 'Activities' tab first</div>
+	<div data-bind="visible: freeformTimerVisible">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				Activity 1
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<li><a href="#">Activity 1</a></li>
-				<li><a href="#">Activity 2</a></li>
-			</ul>
-		</div>
-	</div>
-
-	<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
-	<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
-	<span data-bind="text: timer.output"></span>
-
-	<div data-bind="with: textLogHandler">
-		<div id="freeform-main" style="overflow-y: auto">
-			<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Session Header - <span><span data-bind="text: timer.startTime"></span> - <span data-bind="text: timer.endTime"></span></span></h3>
-					</div>
-					<div class="panel-body">
-						<div data-bind="foreach: logs">
-							<p>
-								<span data-bind="text: timestamp"></span>
-								<span>:</span>
-								<span data-bind="text: text"></span>
-							</p>
-						</div>
-					</div>
-				</div>
-
+			<button type="button" class="btn btn-default">Activity</button>
+			<div class="btn-group">
+				<button data-bind="with: activitySelector.selectedActivity" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					<span data-bind="text: name"></span>
+					<span class="caret"></span>
+				</button>
+				<ul data-bind="foreach: activitySelector.activities" class="dropdown-menu">
+					<li><a data-bind="text: name" href="#"></a></li>
+				</ul>
 			</div>
 		</div>
-		<div id="freeform-footer" class="navbar navbar-fixed-bottom container">
-			<div class="input-group">
-				<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog, enable: textFieldEnabled">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" data-bind="click: addLog">Go!</button>
-				</span>
+
+		<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
+		<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
+		<span data-bind="text: timer.output"></span>
+
+		<div data-bind="with: textLogHandler">
+			<div id="freeform-main" style="overflow-y: auto">
+				<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Session Header - <span><span data-bind="text: timer.startTime"></span> - <span data-bind="text: timer.endTime"></span></span></h3>
+						</div>
+						<div class="panel-body">
+							<div data-bind="foreach: logs">
+								<p>
+									<span data-bind="text: timestamp"></span>
+									<span>:</span>
+									<span data-bind="text: text"></span>
+								</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div id="freeform-footer" class="navbar navbar-fixed-bottom container">
+				<div class="input-group">
+					<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog, enable: textFieldEnabled">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" data-bind="click: addLog">Go!</button>
+					</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -123,8 +128,9 @@
 	resizeTextlogArea();
 	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/TabHandler'], function(FreeformTimerHandler, ActivityHandler, TabHandler) {
 		function TimeTaker() {
-			this.freeformTimerHandler = new FreeformTimerHandler();
-			this.activityHandler = new ActivityHandler();
+			var activities = ko.observableArray();
+			this.freeformTimerHandler = new FreeformTimerHandler(activities);
+			this.activityHandler = new ActivityHandler(activities);
 			this.tabHandler = new TabHandler();
 		}
 		tt = new TimeTaker();
