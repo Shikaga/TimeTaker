@@ -16,7 +16,7 @@ define(['js/TextLogHandler', 'js/Timer', 'js/ActivitySelector'], function(TextLo
             this.startButtonVisible(false);
             this.stopButtonVisible(true);
             this.durationVisible(true);
-            this.textLogHandler.addSession({name: 'TempActivity'});
+            this.textLogHandler.addSession(this.activitySelector.selectedActivity());
             this.timer.start();
         }.bind(this);
         this.clickStop = function() {

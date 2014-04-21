@@ -42,7 +42,7 @@ require(['../js/FreeformTimerHandler'], function(FreeformTimerHandler) {
         equal(tlh.stopButtonVisible(), true);
         equal(tlh.durationVisible(), true);
         equal(tlh.timer.start.called, true);
-        equal(tlh.textLogHandler.addSession.called, true)
+        equal(tlh.textLogHandler.addSession.calledWith(tlh.activitySelector.selectedActivity()), true)
     });
 
     test( "clears timer and toggles buttons when stop clicked", function() {
