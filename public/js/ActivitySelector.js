@@ -10,14 +10,7 @@ define(['js/Activity'], function(Activity) {
             }
         }.bind(this))
 
-        this.unselectAllActivities = function() {
-            this.activities().forEach(function(activity) {
-                activity.selected(false);
-            });
-        }
-
         this.addNewActivity = function() {
-            this.unselectAllActivities();
             var activity = new Activity();
             this.selectedActivity(activity);
             this.activities.push(activity);
@@ -25,9 +18,7 @@ define(['js/Activity'], function(Activity) {
         }.bind(this);
 
         this.selectActivity = function(activity) {
-            this.unselectAllActivities();
             this.selectedActivity(activity);
-            activity.selected(true);
         }
     }
     return ActivitySelector;

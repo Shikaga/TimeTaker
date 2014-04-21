@@ -39,7 +39,7 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">Activities</div>
 				<div class="list-group" data-bind="foreach: activitySelector.activities">
-					<a href="#" class="list-group-item" data-bind="text: name, click: function() {$parent.activitySelector.selectActivity($data)}, css: {active: selected}"></a>
+					<a href="#" class="list-group-item" data-bind="text: name, click: function() {$parent.activitySelector.selectActivity($data)}, css: {active: $data == $parent.activitySelector.selectedActivity()}"></a>
 				</div>
 				<div class="panel-body"></div>
 			</div>
@@ -131,11 +131,11 @@
 
 <script>
 	resizeTextlogArea();
-	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/TabHandler'], function(FreeformTimerHandler, ActivityHandler, TabHandler) {
+	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/TabHandler', 'js/LocalStorageSerializer'], function(FreeformTimerHandler, ActivityHandler, TabHandler, LocalStorageSerializer) {
 		function TimeTaker() {
-			var activities = ko.observableArray();
-			this.freeformTimerHandler = new FreeformTimerHandler(activities);
-			this.activityHandler = new ActivityHandler(activities);
+			this.localStorageSerializer = new LocalStorageSerializer();
+			this.freeformTimerHandler = new FreeformTimerHandler(this.localStorageSerializer.getActivities());
+			this.activityHandler = new ActivityHandler(this.localStorageSerializer.getActivities());
 			this.tabHandler = new TabHandler();
 		}
 		tt = new TimeTaker();

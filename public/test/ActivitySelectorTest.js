@@ -6,11 +6,12 @@ require.config({
     }
 });
 
-require(['../js/ActivitySelector'], function(ActivitySelector) {
-    mockActivities = ko.observableArray([{name: 'actvity1'}, {name: 'activity2'}]);
+require(['../js/ActivitySelector', '../js/Activity'], function(ActivitySelector, Activity) {
+    mockActivities = ko.observableArray([new Activity(), new Activity()]);
 
     test( "ActivitySelector init", function() {
         var as = new ActivitySelector(mockActivities);
+
         equal(as.activities, mockActivities);
         equal(as.selectedActivity(), mockActivities()[0]);
     });
@@ -27,7 +28,6 @@ require(['../js/ActivitySelector'], function(ActivitySelector) {
         as.addNewActivity();
 
         equal(as.activities().length, 1);
-        equal(as.selectedActivity().selected(), true)
     });
 
     test( "when an empty activities is populated, it becomes selected", function() {
@@ -48,10 +48,7 @@ require(['../js/ActivitySelector'], function(ActivitySelector) {
         as.addNewActivity();
 
         equal(as.activities().length, 3);
-        equal(as.activities()[0].selected(), false);
-        equal(as.activities()[1].selected(), false);
-        equal(as.activities()[2].selected(), true);
-        equal(as.selectedActivity().selected(), true)
+        equal(as.selectedActivity(), as.activities()[2])
     });
 
     test( "can select an activity", function() {
@@ -61,9 +58,6 @@ require(['../js/ActivitySelector'], function(ActivitySelector) {
         as.addNewActivity();
         as.selectActivity(as.activities()[0]);
 
-        equal(as.activities()[0].selected(), true);
-        equal(as.activities()[1].selected(), false);
-        equal(as.activities()[2].selected(), false);
         equal(as.selectedActivity(), as.activities()[0]);
     });
 

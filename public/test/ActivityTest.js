@@ -20,4 +20,29 @@ require(['../js/Activity'], function(Activity) {
         activity.setColor(activity.colors[1]);
         equal(activity.color(), activity.colors[1]);
     });
+
+    test("serialize", function() {
+        var activity = new Activity();
+        activity.name("name1");
+        activity.description("description1");
+        activity.color("#111111");
+
+        var serial = activity.serialize();
+        equal(serial.name, "name1");
+        equal(serial.description, "description1");
+        equal(serial.color, "#111111");
+    })
+
+    test("deserialize", function() {
+        var activity = new Activity();
+        activity.deserialize({
+            name: 'name2',
+            description: 'description2',
+            color: '#222222'
+        })
+
+        equal(activity.name(), "name2");
+        equal(activity.description(), "description2");
+        equal(activity.color(), "#222222");
+    })
 });
