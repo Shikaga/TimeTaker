@@ -134,7 +134,7 @@
 	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/TabHandler', 'js/LocalStorageSerializer'], function(FreeformTimerHandler, ActivityHandler, TabHandler, LocalStorageSerializer) {
 		function TimeTaker() {
 			this.localStorageSerializer = new LocalStorageSerializer();
-			this.freeformTimerHandler = new FreeformTimerHandler(this.localStorageSerializer.getActivities());
+			this.freeformTimerHandler = new FreeformTimerHandler(this.localStorageSerializer.getActivities(),this.localStorageSerializer.getSessions());
 			this.activityHandler = new ActivityHandler(this.localStorageSerializer.getActivities());
 			this.tabHandler = new TabHandler();
 		}

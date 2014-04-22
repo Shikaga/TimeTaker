@@ -1,5 +1,5 @@
 define(['js/TextLogHandler', 'js/Timer', 'js/ActivitySelector'], function(TextLogHandler, Timer, ActivitySelector) {
-	function FreeformTimerHandler(activities) {
+	function FreeformTimerHandler(activities,sessions) {
         this.activitySelector = new ActivitySelector(activities);
 
 		this.startButtonVisible = ko.observable(true);
@@ -9,8 +9,7 @@ define(['js/TextLogHandler', 'js/Timer', 'js/ActivitySelector'], function(TextLo
             return activities().length > 0
         })
 
-		this.textLogHandler = new TextLogHandler();
-        x = this;
+		this.textLogHandler = new TextLogHandler(sessions);
         this.timer = new Timer();
         this.clickStart = function() {
             this.startButtonVisible(false);

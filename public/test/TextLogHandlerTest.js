@@ -8,20 +8,22 @@ require.config({
 });
 
 require(['../js/TextLogHandler'], function(TextLogHandler) {
-    mockNode = sinon.spy();
     mockActivity = {
         name: "MockAtivity"
     }
     ko.applyBindings = sinon.spy();
 
-    test( "textLogHandler starts with no logs", function() {
-        var tlh = new TextLogHandler(mockNode);
-        equal(tlh.sessions().length,0);
+    test( "textLogHandler init", function() {
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+        equal(tlh.sessions, mockSessions);
         equal(tlh.textFieldEnabled(),false);
     });
 
     test("enables text log and timer when session added", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
         tlh.textField('Log1');
         tlh.addSession(mockActivity);
         equal(tlh.sessions().length, 1);
@@ -31,7 +33,9 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
     });
 
     test("disabled text log and stop timer when session stopped", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
         tlh.textField('Log1');
         tlh.addSession(mockActivity);
         tlh.stopSession();
@@ -40,7 +44,9 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
     });
 
     test( "textLogHandler can add log", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
         tlh.textField('Log1');
         tlh.addSession(mockActivity);
         tlh.addLog();
@@ -49,14 +55,18 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
     });
 
     test( "textLogHandler unable to add log if no active session", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
         tlh.textField('Log1');
         tlh.addLog();
         equal(true, true);
     });
 
     test( "textLogHandler clears field when log added", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
         tlh.addSession(mockActivity);
 
         tlh.textField('Log1');
@@ -65,15 +75,17 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
     });
 
     test( "textLogHandler cannot add string before set", function() {
-        var tlh = new TextLogHandler(mockNode);
-        tlh.addSession(mockActivity);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
 
+        tlh.addSession(mockActivity);
         tlh.addLog();
         equal(tlh.activeSession.logs().length, 0);
     });
 
     test( "textLogHandler cannot add empty, null, undefined string", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
         tlh.addSession(mockActivity);
 
         tlh.textField('');
@@ -87,7 +99,9 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
 
 
     test( "textLogHandler gets timestamp when log added", function() {
-        var tlh = new TextLogHandler(mockNode);
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
         tlh.addSession(mockActivity);
 
         tlh.textField('Log1');

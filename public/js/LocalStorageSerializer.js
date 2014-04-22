@@ -1,9 +1,13 @@
-define(['js/Activity'], function(Activity) {
+define(['js/Activity', 'js/Session'], function(Activity, Session) {
     function LocalStorageSerializer() {
         this.activities = ko.observableArray();
+        this.sessions = ko.observableArray();
         this._deserialize();
         this.activities.subscribe(function() {
             this._listenToFields();
+            this._serialize();
+        }.bind(this))
+        this.sessions.subscribe(function() {
             this._serialize();
         }.bind(this))
     }
@@ -33,6 +37,21 @@ define(['js/Activity'], function(Activity) {
             }.bind(this))
             this._listenToFields();
         }
+
+        var serializedSessions = localStorage.getItem('sessions');
+        if (serializedSessions) {
+            serializedSessions = JSON.parse(serializedSessions);
+            serializedSessions.forEach(function(serial) {
+                var sessionActivity = null;
+                this.activities().forEach(function(activity) {
+                    if (activity.id == serial.activityId) {
+                        sessionActivity =  activity;
+                    }
+                })
+                var session = new Session(sessionActivity);
+                this.sessions.push(session);
+            }.bind(this))
+        }
     }
 
     LocalStorageSerializer.prototype._serialize = function() {
@@ -41,10 +60,20 @@ define(['js/Activity'], function(Activity) {
             serializedArray.push(activity.serialize());
         })
         localStorage.setItem('activities', JSON.stringify(serializedArray));
+
+        var serializedArray = [];
+        this.sessions().forEach(function(session) {
+            serializedArray.push(session.serialize());
+        })
+        localStorage.setItem('sessions', JSON.stringify(serializedArray));
     }
 
     LocalStorageSerializer.prototype.getActivities = function() {
         return this.activities;
+    }
+
+    LocalStorageSerializer.prototype.getSessions = function() {
+        return this.sessions;
     }
 
     return LocalStorageSerializer;

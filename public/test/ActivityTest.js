@@ -31,6 +31,7 @@ require(['../js/Activity'], function(Activity) {
         equal(serial.name, "name1");
         equal(serial.description, "description1");
         equal(serial.color, "#111111");
+        equal(serial.id, activity.id);
     })
 
     test("deserialize", function() {
@@ -38,11 +39,13 @@ require(['../js/Activity'], function(Activity) {
         activity.deserialize({
             name: 'name2',
             description: 'description2',
-            color: '#222222'
+            color: '#222222',
+            id: 'exampleId'
         })
 
         equal(activity.name(), "name2");
         equal(activity.description(), "description2");
         equal(activity.color(), "#222222");
+        equal(activity.id, "exampleId");
     })
 });

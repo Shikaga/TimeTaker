@@ -7,13 +7,15 @@ define(['js/ColorPalette'], function(ColorPalette) {
         this.setColor = function(color) {
             this.color(color);
         }
+        this.id = Math.random().toString();
     }
 
     Activity.prototype.serialize = function() {
         return {
-            name: this.name(),
-            description: this.description(),
-            color: this.color()
+            name: this.name()
+            ,description: this.description()
+            ,color: this.color()
+            ,id: this.id
         }
     }
 
@@ -21,6 +23,8 @@ define(['js/ColorPalette'], function(ColorPalette) {
         this.name(serial.name);
         this.description(serial.description);
         this.color(serial.color);
+        this.id = serial.id;
     }
+
     return Activity;
 })

@@ -1,14 +1,10 @@
-define(['js/TimestampGenerator', 'js/Timer'], function(TimestampGenerator, Timer) {
-        function TextLogHandler() {
-            this.sessions = ko.observableArray();
+define(['js/TimestampGenerator', 'js/Timer', 'js/Session'], function(TimestampGenerator, Timer, Session) {
+        function TextLogHandler(sessions) {
+            this.sessions = sessions;
             this.textField = ko.observable();
             this.textFieldEnabled = ko.observable(false);
             this.addSession = function(activity) {
-                var session = {
-                    activity: activity,
-                    logs: ko.observableArray(),
-                    timer: new Timer()
-                };
+                var session = new Session(activity);
                 session.timer.start();
                 this.sessions.push(session);
                 this.activeSession = session;
