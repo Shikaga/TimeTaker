@@ -3,12 +3,11 @@ function resizeTextlogArea() {
 
     var resizeMiddle = function() {
         console.log('?');
-        var h = $('body').height() - $('#freeform-footer').height() - $('#header').height() - 20;
+        var h = $('#app').height() - $('#freeform-footer').height() - $('#header').height() - 20;
         h = h > minHeight ? h : minHeight;
 
-        h2 = $('body').height() - $('#header').height() - 100;
+        h2 = $('#app').height() - $('#header').height() - 100;
         h2 = h2 > minHeight ? h2 : minHeight;
-        console.log( $('body').height(),$('#header').height(),h2);
 
         $('#freeform-main').height(h);
         $('#activity-activities').height(h2);
