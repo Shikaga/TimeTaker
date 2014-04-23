@@ -49,6 +49,7 @@ define(['js/Activity', 'js/Session'], function(Activity, Session) {
                     }
                 })
                 var session = new Session(sessionActivity);
+                session.deserialize(serial);
                 this.sessions.push(session);
             }.bind(this))
         }

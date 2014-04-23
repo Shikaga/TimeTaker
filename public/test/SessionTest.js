@@ -1,35 +1,45 @@
 require.config({
     map: {
         '*': {
-            "js/ColorPalette": "../js/ColorPalette"
+            "js/ColorPalette": "../js/ColorPalette",
+            'js/TimestampGenerator': 'MockTimestampGenerator',
+            'js/Timer': 'MockTimer',
+            'js/Log': '../js/Log'
         }
     }
 });
 
 require(['../js/Activity','../js/Session'], function(Activity, Session) {
 
+    test("add logs", function() {
+        var activity = new Activity();
+        var session = new Session(activity);
+        session.addLog("exampleLog");
+
+        equal(session.logs()[0].text(), "exampleLog");
+    })
+
     test("serialize", function() {
         var activity = new Activity();
         var session = new Session(activity);
+        session.addLog("exampleLog");
 
         var serial = session.serialize();
         equal(serial.activityId, activity.id);
+        equal(serial.logs[0].text, "exampleLog");
     })
 
     test("deserialize", function() {
         var activity = new Activity();
         var session = new Session(activity);
+        session.addLog("exampleLog");
 
-        session.deserialize({
-            name: 'name2',
-            description: 'description2',
-            color: '#222222',
-            id: 'exampleId'
-        })
+        var serial = session.serialize();
 
-        equal(activity.name(), "name2");
-        equal(activity.description(), "description2");
-        equal(activity.color(), "#222222");
-        equal(activity.id, "exampleId");
+        var session2 = new Session(activity);
+        session2.deserialize(serial);
+
+        equal(session2.logs()[0].text(), "exampleLog");
+
     })
 });

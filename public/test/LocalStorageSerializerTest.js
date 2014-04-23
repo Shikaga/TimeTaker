@@ -119,7 +119,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "sessions are linked to their activities", function() {
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111', id: 'activityId'}]));
-        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId'}]));
+        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs: [{text: 'example1', timestamp: 0}]}]));
 
         var lss = new LocalStorageSerializer();
         var activities = lss.getActivities();
@@ -127,12 +127,13 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
 
         equal(sessions().length, 1);
         equal(sessions()[0].activity, activities()[0]);
+        equal(sessions()[0].logs()[0].text(), 'example1');
     });
 
     test( "serializer saves sessions that are added", function() {
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111', id: 'activityId'}]));
-        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId'}]));
+        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs:[]}]));
 
         var lss = new LocalStorageSerializer();
         var sessions = lss.getSessions();
