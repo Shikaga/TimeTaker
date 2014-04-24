@@ -18,6 +18,20 @@ require(['../js/Timer'], function(Timer) {
         equal(timer.output(), "00:00");
     });
 
+
+    test( "Timer starts when start invoked", function() {
+        var fakeClock = sinon.useFakeTimers();
+
+        var timer = new Timer();
+        fakeClock.tick(30000);
+        timer.start();
+        fakeClock.tick(200);
+
+        equal(timer.output(), "00:00");
+
+        fakeClock.restore();
+    });
+
     test( "Timer increments every second to 00:05", function() {
         var fakeClock = sinon.useFakeTimers();
 

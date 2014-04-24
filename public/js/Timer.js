@@ -35,6 +35,7 @@ define([], function() {
     }
 
 	Timer.prototype.start = function() {
+        this.startTimestamp = ko.observable(new Date().getTime());
         this.timerInterval = setInterval(function() {
             this.endTimestamp(new Date().getTime());
             var timeElapsedMilliseconds = this.endTimestamp() - this.startTimestamp();
