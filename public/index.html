@@ -34,8 +34,8 @@
 			<li data-bind="css: {active: tomatoVisible}"><a href="#" data-bind="click: tomatoClicked">Tomato Timer</a></li>
 			<li data-bind="css: {active: freeformVisible}"><a href="#" data-bind="click: freeformClicked">Freeform Timer</a></li>
 		</ul>
+		<br />
 	</div>
-	<br />
 	<div data-bind="visible: tabHandler.activityVisible, with: activityHandler">
 		<div id="activity-panel" class="row">
 			<div class="col-md-4">
@@ -77,9 +77,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div>
-
 	</div>
 	<div id="freeform-panel" data-bind="visible: tabHandler.freeformVisible, with: freeformTimerHandler">
 		<div data-bind="visible: !freeformTimerVisible()" class="alert alert-info">Please add an activity in the 'Activities' tab first</div>

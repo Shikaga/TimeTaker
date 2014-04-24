@@ -3,10 +3,10 @@ function resizeTextlogArea() {
 
     var resizeMiddle = function() {
         console.log('?');
-        var h = $('#app').height() - $('#freeform-footer').height() - $('#header').height() - 20;
+        var h = $('body').height() - $('#freeform-footer').height() - $('#header').height() - 200;
         h = h > minHeight ? h : minHeight;
 
-        h2 = $('#app').height() - $('#header').height() - 100;
+        h2 = $('body').height() - $('#header').height() - 300;
         h2 = h2 > minHeight ? h2 : minHeight;
 
         $('#freeform-main').height(h);
