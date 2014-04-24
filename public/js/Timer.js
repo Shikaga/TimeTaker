@@ -1,10 +1,18 @@
 define([], function() {
 	function Timer() {
+        this.startTimestamp = ko.observable(new Date().getTime());
+        this.endTimestamp = ko.observable(new Date().getTime());
+
         this.timerInterval = null;
 		this.output = ko.observable(this.getTimeOutput(0));
 
-        this.startTime = ko.observable(this.getEndTimeOutput());
-        this.endTime = ko.observable(this.getEndTimeOutput());
+        this.startTime = ko.computed(function() {
+            return this.getFormattedTime(this.startTimestamp())
+        }.bind(this))
+
+        this.endTime = ko.computed(function() {
+            return this.getFormattedTime(this.endTimestamp())
+        }.bind(this))
 	}
 
     Timer.prototype.getTimeOutput = function(timeElapsedInMilliseconds) {
@@ -21,25 +29,34 @@ define([], function() {
         }
     }
 
-    Timer.prototype.getEndTimeOutput = function() {
-        var rawTime = new Date().toLocaleTimeString();
+    Timer.prototype.getFormattedTime = function(timestamp) {
+        var rawTime = new Date(timestamp).toLocaleTimeString();
         return rawTime.substr(0, rawTime.length - 6) + "" + rawTime.substr(rawTime.length - 3);
     }
 
 	Timer.prototype.start = function() {
-        this.timeStarted = new Date().getTime();
         this.timerInterval = setInterval(function() {
-            var timeElapsedMilliseconds = new Date().getTime() - this.timeStarted;
+            this.endTimestamp(new Date().getTime());
+            var timeElapsedMilliseconds = this.endTimestamp() - this.startTimestamp();
             this.output(this.getTimeOutput(timeElapsedMilliseconds));
-            this.endTime(this.getEndTimeOutput());
         }.bind(this),100);
 	}
 
 	Timer.prototype.stop = function() {
         clearInterval(this.timerInterval);
-        this.timeStarted = null;
         this.output(this.getTimeOutput(0));
 	}
+
+    Timer.prototype.serialize = function() {
+        return {
+            start: this.startTimestamp(),
+            stop: this.endTimestamp()
+        }
+    }
+    Timer.prototype.deserialize = function(serial) {
+        this.startTimestamp(serial.start);
+        this.endTimestamp(serial.stop);
+    }
 
 	return Timer;
 })

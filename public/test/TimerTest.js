@@ -246,4 +246,36 @@ require(['../js/Timer'], function(Timer) {
 
         fakeClock.restore();
     });
+
+    test( "serialize", function() {
+        var fakeClock = sinon.useFakeTimers(0); //01:00:00 1/1/1970
+
+        var timer = new Timer();
+        timer.start();
+        fakeClock.tick(60000);
+        timer.stop();
+
+        var serial = timer.serialize();
+        equal(serial.start, 0);
+        equal(serial.stop, 60000);
+
+
+        fakeClock.restore();
+    });
+
+
+    test( "deserialize", function() {
+        var fakeClock = sinon.useFakeTimers(0); //01:00:00 1/1/1970
+
+        var timer = new Timer();
+        timer.deserialize({
+            start: 60000,
+            stop: 120000
+        })
+
+        equal(timer.startTime(),"1:01 AM");
+        equal(timer.endTime(),"1:02 AM");
+
+        fakeClock.restore();
+    });
 });

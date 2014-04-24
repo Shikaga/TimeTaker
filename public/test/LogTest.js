@@ -2,7 +2,8 @@ require.config({
     map: {
         '*': {
             'js/TimestampGenerator': 'MockTimestampGenerator',
-            'js/Timer': 'MockTimer'
+            'js/Timer': 'MockTimer',
+            'js/Log': '../js/Log'
         }
     }
 });
