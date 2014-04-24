@@ -14,7 +14,8 @@ define(['js/Timer', 'js/Log'], function(Timer, Log) {
             activityId: this.activity.id,
             logs: _.map(this.logs(), function(log) {
                 return log.serialize();
-            })
+            }),
+            timer: this.timer.serialize()
         }
     }
 
@@ -24,6 +25,7 @@ define(['js/Timer', 'js/Log'], function(Timer, Log) {
             log.deserialize(serialLog);
             this.logs.push(log)
         }.bind(this))
+        this.timer.deserialize(serial.timer);
     }
 
     return Session;

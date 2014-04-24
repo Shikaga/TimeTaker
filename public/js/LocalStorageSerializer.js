@@ -8,6 +8,7 @@ define(['js/Activity', 'js/Session'], function(Activity, Session) {
             this._serialize();
         }.bind(this))
         this.sessions.subscribe(function() {
+            this._listenToFields();
             this._serialize();
         }.bind(this))
     }
@@ -18,6 +19,9 @@ define(['js/Activity', 'js/Session'], function(Activity, Session) {
             this._listenTo(activity.description);
             this._listenTo(activity.color);
         }.bind(this))
+        this.sessions().forEach(function(session) {
+            this._listenTo(session.timer.endTime);
+        }.bind(this));
     }
 
     LocalStorageSerializer.prototype._listenTo = function(observable) {

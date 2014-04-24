@@ -133,12 +133,11 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "serializer saves sessions that are added", function() {
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111', id: 'activityId'}]));
-        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs:[]}]));
+        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs:[], timer: {start: 0, end: 60000}}]));
 
         var lss = new LocalStorageSerializer();
         var sessions = lss.getSessions();
         var activities = lss.getActivities();
-
         sessions.push(new Session(activities()[0]));
 
         var serializedArray = JSON.parse(getSetItemFor(mockLocalStorage.setItem, 'sessions')[0].args[1]);
@@ -146,26 +145,10 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     });
 
 
-//    test( "serializer saves activities when fields changed", function() {
-//        mockLocalStorage = new MockLocalStorage();
-//
-//        var lss = new LocalStorageSerializer();
-//        var activities = lss.getActivities();
-//        var activity = new Activity()
-//        activities.push(activity);
-//
-//        activity.name('name');
-//        var serializedArray = JSON.parse(mockLocalStorage.setItem.getCall(1).args[1]);
-//        equal(serializedArray[0].name, 'name');
-//
-//        activity.description('description');
-//        var serializedArray = JSON.parse(mockLocalStorage.setItem.getCall(2).args[1]);
-//        equal(serializedArray[0].description, 'description');
-//
-//        activity.color('color');
-//        var serializedArray = JSON.parse(mockLocalStorage.setItem.getCall(3).args[1]);
-//        equal(serializedArray[0].color, 'color');
-//    });
+    test( "serializer saves sessions when timer changed", function() {
+        //TODO
+        equal(1,1);
+    });
 //
 //    test( "serializer saves activities when fields changed with initial activity", function() {
 //        mockLocalStorage = new MockLocalStorage();

@@ -27,6 +27,7 @@ require(['../js/Activity','../js/Session'], function(Activity, Session) {
         var serial = session.serialize();
         equal(serial.activityId, activity.id);
         equal(serial.logs[0].text, "exampleLog");
+        equal(serial.timer, "serializedTimer");
     })
 
     test("deserialize", function() {
@@ -40,6 +41,7 @@ require(['../js/Activity','../js/Session'], function(Activity, Session) {
         session2.deserialize(serial);
 
         equal(session2.logs()[0].text(), "exampleLog");
+        equal(session2.timer.deserialize.calledWith("serializedTimer"), true);
 
     })
 });
