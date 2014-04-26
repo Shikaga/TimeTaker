@@ -75,6 +75,7 @@
 						</li>
 					</ul>
 				</div>
+				<span data-bind="text: totalTime"></span>
 			</div>
 		</div>
 	</div>
@@ -136,9 +137,13 @@
 
 <script>
 	resizeTextlogArea();
-	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/TabHandler', 'js/LocalStorageSerializer'], function(FreeformTimerHandler, ActivityHandler, TabHandler, LocalStorageSerializer) {
+	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/ActivityTimeAccumulator.js', 'js/TabHandler', 'js/LocalStorageSerializer'], function(FreeformTimerHandler, ActivityHandler, ActivityTimeAccumulator, TabHandler, LocalStorageSerializer) {
 		function TimeTaker() {
-			this.localStorageSerializer = new LocalStorageSerializer();
+			this.activities = ko.observableArray();
+			this.sessions = ko.observableArray();
+			window.globals = {};
+			window.globals.activityTimeAccumulator = new ActivityTimeAccumulator(this.sessions);
+			this.localStorageSerializer = new LocalStorageSerializer(this.activities, this.sessions);
 			this.freeformTimerHandler = new FreeformTimerHandler(this.localStorageSerializer.getActivities(),this.localStorageSerializer.getSessions());
 			this.activityHandler = new ActivityHandler(this.localStorageSerializer.getActivities());
 			this.tabHandler = new TabHandler();

@@ -2,7 +2,8 @@ require.config({
     map: {
         '*': {
             'js/TimestampGenerator': 'MockTimestampGenerator',
-            'js/TextLogHandler': '../js/TextLogHandler'
+            'js/TextLogHandler': '../js/TextLogHandler',
+            'js/TimeFormatter': '../js/TimeFormatter'
         }
     }
 });
@@ -79,39 +80,6 @@ require(['../js/Timer'], function(Timer) {
         equal(timer.output(), "00:04");
         fakeClock.tick(500);
         equal(timer.output(), "00:05");
-
-        fakeClock.restore();
-    });
-
-    test( "Timer increments every 5 second to 00:30", function() {
-        var fakeClock = sinon.useFakeTimers();
-
-        var timer = new Timer();
-        timer.start();
-
-        equal(timer.output(), "00:00");
-        fakeClock.tick(5000);
-        equal(timer.output(), "00:05");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:05");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:10");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:10");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:15");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:15");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:20");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:20");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:25");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:25");
-        fakeClock.tick(2500);
-        equal(timer.output(), "00:30");
 
         fakeClock.restore();
     });

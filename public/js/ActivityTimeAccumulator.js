@@ -1,4 +1,4 @@
-define([], function() {
+define(['js/TimeFormatter'], function(TimeFormatter) {
     function ActivityTimeAccumulator(sessions) {
         this.sessions = sessions;
     }
@@ -12,6 +12,12 @@ define([], function() {
                     return memo;
                 }
             }, 0)
+        }.bind(this));
+    }
+
+    ActivityTimeAccumulator.prototype.getTotalTimeFormatted = function(activity) {
+        return ko.computed(function() {
+            return TimeFormatter.hoursMinutesSecond(this.getTotalTime(activity)());
         }.bind(this));
     }
 

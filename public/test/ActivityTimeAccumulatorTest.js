@@ -4,7 +4,8 @@ require.config({
             'js/TimestampGenerator': 'MockTimestampGenerator',
             'js/Timer': 'MockTimer',
             'js/Session': '../js/Session',
-            'js/Activity': '../js/Activity'
+            'js/Activity': '../js/Activity',
+            'js/TimeFormatter': '../js/TimeFormatter'
         }
     }
 });

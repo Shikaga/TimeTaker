@@ -8,6 +8,7 @@ define(['js/ColorPalette'], function(ColorPalette) {
             this.color(color);
         }
         this.id = Math.random().toString();
+        this.totalTime = globals.activityTimeAccumulator.getTotalTimeFormatted(this);
     }
 
     Activity.prototype.serialize = function() {

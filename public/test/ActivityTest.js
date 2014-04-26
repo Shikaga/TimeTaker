@@ -6,7 +6,8 @@ require.config({
     }
 });
 
-require(['../js/Activity'], function(Activity) {
+require(['../js/Activity', 'MockGlobals'], function(Activity, MockGlobals) {
+    globals = MockGlobals;
     mockNode = sinon.spy();
     ko.applyBindings = sinon.spy();
 

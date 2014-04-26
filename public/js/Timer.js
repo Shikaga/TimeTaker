@@ -1,5 +1,10 @@
-define([], function() {
+define(['js/TimeFormatter'], function(TimeFormatter) {
 	function Timer() {
+        this.FIVE_SECONDS = 5000;
+        this.HALF_MINUTE = 30000;
+        this.TWO_MINUTES = 120000;
+        this.FIVE_SECONDS = 5000;
+        this.FIVE_SECONDS = 5000;
         this.startTimestamp = ko.observable(new Date().getTime());
         this.endTimestamp = ko.observable(new Date().getTime());
         this.elapsedTime = ko.computed(function() {
@@ -18,17 +23,19 @@ define([], function() {
 	}
 
     Timer.prototype.getTimeOutput = function(timeElapsedInMilliseconds) {
-        if (timeElapsedInMilliseconds < 5000) {
-            return "00:0" + Math.floor(timeElapsedInMilliseconds / 1000);
-        } else if (timeElapsedInMilliseconds < 30000) {
-            return "00:" + Math.floor(timeElapsedInMilliseconds / 10000) + "" + (5 * Math.floor(timeElapsedInMilliseconds / 5000) % 10);
-        } else if (timeElapsedInMilliseconds < 120000) {
-            return "0" + Math.floor(timeElapsedInMilliseconds / 60000) + ":" + (3 * Math.floor(timeElapsedInMilliseconds / 30000)) % 6 + "0";
-        } else if (timeElapsedInMilliseconds < 3600000) {
-            return Math.floor(timeElapsedInMilliseconds / 600000) + "" + Math.floor(timeElapsedInMilliseconds / 60000) % 10 + ":00"
+        if (timeElapsedInMilliseconds < this.FIVE_SECONDS) {
+
+        } else if (timeElapsedInMilliseconds < this.HALF_MINUTE) {
+            //Round to nearest 5 seconds
+            timeElapsedInMilliseconds = 5000 * Math.floor(timeElapsedInMilliseconds/5000);
+        } else if (timeElapsedInMilliseconds < this.TWO_MINUTES) {
+            //Round to nearest 30 seconds
+            timeElapsedInMilliseconds = 30000 * Math.floor(timeElapsedInMilliseconds/30000);
         } else {
-            return Math.floor(timeElapsedInMilliseconds / 3600000) + ":" + Math.floor(timeElapsedInMilliseconds / 600000) % 6 + "" + Math.floor(timeElapsedInMilliseconds / 60000) % 10 + ":00"
+            //Round to nearest 1 minute
+            timeElapsedInMilliseconds = 60000 * Math.floor(timeElapsedInMilliseconds/60000);
         }
+        return TimeFormatter.hoursMinutesSecond(timeElapsedInMilliseconds);
     }
 
     Timer.prototype.getFormattedTime = function(timestamp) {
