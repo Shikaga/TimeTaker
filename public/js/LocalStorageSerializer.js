@@ -1,7 +1,7 @@
 define(['js/Activity', 'js/Session'], function(Activity, Session) {
-    function LocalStorageSerializer() {
-        this.activities = ko.observableArray();
-        this.sessions = ko.observableArray();
+    function LocalStorageSerializer(activities, sessions) {
+        this.activities = activities;
+        this.sessions = sessions;
         this._deserialize();
         this.activities.subscribe(function() {
             this._listenToFields();

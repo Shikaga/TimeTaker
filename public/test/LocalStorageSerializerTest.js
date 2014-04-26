@@ -25,7 +25,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "serializer returns no activities if none exist", function() {
         mockLocalStorage = new MockLocalStorage();
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
 
         equal(activities().length, 0);
@@ -35,7 +35,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111'}]));
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
 
         equal(activities().length, 1);
@@ -46,7 +46,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111'}]));
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
         var activities2 = lss.getActivities();
 
@@ -56,7 +56,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "serializer saves activities that are added", function() {
         mockLocalStorage = new MockLocalStorage();
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
         activities.push(new Activity());
 
@@ -68,7 +68,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "serializer saves activities when fields changed", function() {
         mockLocalStorage = new MockLocalStorage();
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
         var activity = new Activity()
         activities.push(activity);
@@ -90,7 +90,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111'}]));
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
         var activity = activities()[0];
 
@@ -110,7 +110,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "serializer returns no sessions if none exist", function() {
         mockLocalStorage = new MockLocalStorage();
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var sessions = lss.getSessions();
 
         equal(sessions().length, 0);
@@ -121,7 +121,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111', id: 'activityId'}]));
         mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs: [{text: 'example1', timestamp: 0}]}]));
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();
         var sessions = lss.getSessions();
 
@@ -135,7 +135,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111', id: 'activityId'}]));
         mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs:[], timer: {start: 0, end: 60000}}]));
 
-        var lss = new LocalStorageSerializer();
+        var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var sessions = lss.getSessions();
         var activities = lss.getActivities();
         sessions.push(new Session(activities()[0]));
