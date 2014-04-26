@@ -10,6 +10,7 @@ define([], function() {
             this.activityVisible(false);
             this.tomatoVisible(false);
             this.freeformVisible(false);
+            resizeTextlogArea();
         }.bind(this)
 
         this.activityClicked = function() {
@@ -17,6 +18,7 @@ define([], function() {
             this.activityVisible(true);
             this.tomatoVisible(false);
             this.freeformVisible(false);
+            resizeTextlogArea();
         }.bind(this)
 
         this.tomatoClicked = function() {
@@ -24,6 +26,7 @@ define([], function() {
             this.activityVisible(false);
             this.tomatoVisible(true);
             this.freeformVisible(false);
+            resizeTextlogArea();
         }.bind(this)
 
         this.freeformClicked = function() {
@@ -31,6 +34,7 @@ define([], function() {
             this.activityVisible(false);
             this.tomatoVisible(false);
             this.freeformVisible(true);
+            resizeTextlogArea();
         }.bind(this);
     }
 

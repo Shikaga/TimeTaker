@@ -80,7 +80,7 @@
 	</div>
 	<div id="freeform-panel" data-bind="visible: tabHandler.freeformVisible, with: freeformTimerHandler">
 		<div data-bind="visible: !freeformTimerVisible()" class="alert alert-info">Please add an activity in the 'Activities' tab first</div>
-		<div data-bind="visible: freeformTimerVisible">
+		<div  data-bind="visible: freeformTimerVisible">
 			<div class="btn-group">
 				<button data-bind="enable: !textLogHandler.textFieldEnabled()" class="btn btn-default">Activity</button>
 				<div class="btn-group">
@@ -97,9 +97,11 @@
 			<button type="button" class="btn btn-success" data-bind="visible: startButtonVisible, click: clickStart">Start</button>
 			<button type="button" class="btn btn-danger" data-bind="visible: stopButtonVisible, click: clickStop">Stop</button>
 			<span data-bind="text: timer.output"></span>
+			<div></div>
+			<br />
+			<div id="freeform-main" style="overflow-y: auto" data-bind="with: textLogHandler">
 
-			<div data-bind="with: textLogHandler">
-				<div id="freeform-main" style="overflow-y: auto">
+				<div>
 					<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
 						<div class="panel panel-default">
 							<div data-bind="style: {backgroundColor: activity.color}"  class="panel-heading">
