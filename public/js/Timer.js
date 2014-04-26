@@ -2,7 +2,9 @@ define([], function() {
 	function Timer() {
         this.startTimestamp = ko.observable(new Date().getTime());
         this.endTimestamp = ko.observable(new Date().getTime());
-
+        this.elapsedTime = ko.computed(function() {
+            return this.endTimestamp() - this.startTimestamp()
+        }.bind(this))
         this.timerInterval = null;
 		this.output = ko.observable(this.getTimeOutput(0));
 

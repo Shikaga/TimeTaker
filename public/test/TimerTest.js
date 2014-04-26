@@ -32,6 +32,26 @@ require(['../js/Timer'], function(Timer) {
         fakeClock.restore();
     });
 
+
+    test( "Timer returns time elapsed", function() {
+        var fakeClock = sinon.useFakeTimers();
+
+        var timer = new Timer();
+        equal(timer.elapsedTime(), 0);
+        fakeClock.tick(30000);
+        equal(timer.elapsedTime(), 0);
+        timer.start();
+        fakeClock.tick(200);
+        equal(timer.elapsedTime(), 200);
+        fakeClock.tick(1000);
+        equal(timer.elapsedTime(), 1200);
+        timer.stop();
+        fakeClock.tick(1000);
+        equal(timer.elapsedTime(), 1200);
+
+        fakeClock.restore();
+    });
+
     test( "Timer increments every second to 00:05", function() {
         var fakeClock = sinon.useFakeTimers();
 

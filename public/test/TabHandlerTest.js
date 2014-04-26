@@ -1,5 +1,4 @@
 require(['../js/TabHandler'], function(TabHandler) {
-
     test( "starts in week view", function() {
         var tabHandler = new TabHandler();
         equal(tabHandler.weekVisible(),true);
@@ -9,6 +8,7 @@ require(['../js/TabHandler'], function(TabHandler) {
     });
 
     test( "changes to week", function() {
+        window.resizeTextlogArea = function() {}
         var tabHandler = new TabHandler();
         tabHandler.weekClicked();
         equal(tabHandler.weekVisible(),true);
@@ -17,6 +17,8 @@ require(['../js/TabHandler'], function(TabHandler) {
         equal(tabHandler.freeformVisible(),false);
     });
     test( "changes to activity", function() {
+
+        window.resizeTextlogArea = function() {}
         var tabHandler = new TabHandler();
         tabHandler.activityClicked();
         equal(tabHandler.weekVisible(),false);
