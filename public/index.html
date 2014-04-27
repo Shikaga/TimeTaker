@@ -75,7 +75,36 @@
 						</li>
 					</ul>
 				</div>
-				<span data-bind="text: totalTime"></span>
+				<div></div><br/>
+				<div class="panel panel-default">
+					<!-- Default panel contents -->
+					<div class="panel-heading">Time Spent</div>
+					<table class="table">
+						<tbody>
+						<tr>
+							<td>Today</td>
+							<td data-bind="text: totalTimeToday"></td>
+						</tr>
+						<tr>
+							<td>This Week</td>
+							<td data-bind="text: totalTimeThisWeek"></td>
+						</tr>
+						<tr>
+							<td>This Month</td>
+							<td data-bind="text: totalTimeThisMonth"></td>
+						</tr>
+						<tr>
+							<td>This Year</td>
+							<td data-bind="text: totalTimeThisYear"></td>
+						</tr>
+						<tr>
+							<td>All</td>
+							<td data-bind="text: totalTime"></td>
+						</tr>
+						</tbody>
+					</table>
+					</div>
+				<span ></span>
 			</div>
 		</div>
 	</div>

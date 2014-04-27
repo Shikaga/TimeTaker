@@ -1,6 +1,8 @@
 define([], function() {
     function MockTimer() {
         this.elapsedTime = ko.observable(0);
+        this.startTimestamp = ko.observable();
+        this.endTimestamp = ko.observable();
     }
     MockTimer.prototype.startTime = ko.observable();
     MockTimer.prototype.endTime = ko.observable();

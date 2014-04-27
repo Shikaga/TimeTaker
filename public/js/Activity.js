@@ -8,6 +8,10 @@ define(['js/ColorPalette'], function(ColorPalette) {
             this.color(color);
         }
         this.id = Math.random().toString();
+        this.totalTimeToday = globals.activityTimeAccumulator.getTotalTimeTodayFormatted(this);
+        this.totalTimeThisWeek = globals.activityTimeAccumulator.getTotalTimeThisWeekFormatted(this);
+        this.totalTimeThisMonth = globals.activityTimeAccumulator.getTotalTimeThisMonthFormatted(this);
+        this.totalTimeThisYear = globals.activityTimeAccumulator.getTotalTimeThisYearFormatted(this);
         this.totalTime = globals.activityTimeAccumulator.getTotalTimeFormatted(this);
     }
 
