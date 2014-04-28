@@ -1,3 +1,6 @@
+x = 0;
+y = 0;
+
 function resizeTextlogArea() {
     var minHeight = 30; // Define a minimum height for the middle div
 

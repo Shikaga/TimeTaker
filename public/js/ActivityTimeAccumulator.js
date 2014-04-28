@@ -1,13 +1,15 @@
-define(['js/TimeFormatter', 'js/TimeUtil'], function(TimeFormatter, TimeUtil) {
+define(['js/TimeFormatter', 'js/TimeUtil', 'js/SubscriptionDisposer'], function(TimeFormatter, TimeUtil, SubscriptionDisposer) {
     function ActivityTimeAccumulator(sessions) {
         this.sessions = sessions;
+        console.log(this.sessions());
+        this.subscriptionDisposer = new SubscriptionDisposer();
     }
 
-    ActivityTimeAccumulator.prototype._subscribe = function(sessions, observable) {
-        this._watchSessions(sessions(), observable);
-        this.sessions.subscribe(function() {
-            this._watchSessions(sessions(), observable);
-        }.bind(this))
+    ActivityTimeAccumulator.prototype._subscribe = function(sessionsFunc, observable) {
+        this._watchSessions(sessionsFunc(), observable);
+        this.subscriptionDisposer.addSubscription(this.sessions, this.sessions.subscribe(function() {
+            this._watchSessions(sessionsFunc(), observable);
+        }.bind(this)), sessionsFunc);
     }
 
     ActivityTimeAccumulator.prototype._watchSessions = function(sessions, observable) {
@@ -80,32 +82,38 @@ define(['js/TimeFormatter', 'js/TimeUtil'], function(TimeFormatter, TimeUtil) {
     }
 
     ActivityTimeAccumulator.prototype.getTotalTimeTodayFormatted = function(activity) {
+        var observable = this._getTotalTimeToday(activity);
         return ko.computed(function() {
-            return TimeFormatter.hoursMinutesSecond(this._getTotalTimeToday(activity)());
+            return TimeFormatter.hoursMinutesSecond(observable());
         }.bind(this));
     }
 
     ActivityTimeAccumulator.prototype.getTotalTimeThisWeekFormatted = function(activity) {
+        var observable = this._getTotalTimeThisWeek(activity);
+        k = observable;
         return ko.computed(function() {
-            return TimeFormatter.hoursMinutesSecond(this._getTotalTimeThisWeek(activity)());
+            return TimeFormatter.hoursMinutesSecond(observable());
         }.bind(this));
     }
 
     ActivityTimeAccumulator.prototype.getTotalTimeThisMonthFormatted = function(activity) {
+        var observable = this._getTotalTimeThisMonth(activity);
         return ko.computed(function() {
-            return TimeFormatter.hoursMinutesSecond(this._getTotalTimeThisMonth(activity)());
+            return TimeFormatter.hoursMinutesSecond(observable());
         }.bind(this));
     }
 
     ActivityTimeAccumulator.prototype.getTotalTimeThisYearFormatted = function(activity) {
+        var observable = this._getTotalTimeThisYear(activity);
         return ko.computed(function() {
-            return TimeFormatter.hoursMinutesSecond(this._getTotalTimeThisYear(activity)());
+            return TimeFormatter.hoursMinutesSecond(observable());
         }.bind(this));
     }
 
     ActivityTimeAccumulator.prototype.getTotalTimeFormatted = function(activity) {
+        var observable = this._getTotalTime(activity);
         return ko.computed(function() {
-            return TimeFormatter.hoursMinutesSecond(this._getTotalTime(activity)());
+            return TimeFormatter.hoursMinutesSecond(observable());
         }.bind(this));
     }
 

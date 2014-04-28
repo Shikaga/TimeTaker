@@ -6,7 +6,8 @@ require.config({
             'js/Session': '../js/Session',
             'js/Activity': '../js/Activity',
             'js/TimeFormatter': '../js/TimeFormatter',
-            'js/TimeUtil': 'MockTimeUtil'
+            'js/TimeUtil': 'MockTimeUtil',
+            'js/SubscriptionDisposer': '../js/SubscriptionDisposer'
         }
     }
 });
