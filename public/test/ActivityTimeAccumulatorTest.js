@@ -17,7 +17,7 @@ require(['../js/ActivityTimeAccumulator', '../js/Activity', '../js/Session', 'Mo
     test( "accumulator init", function() {
         var activity = new Activity();
         var session = new Session(activity);
-        var accumulator = new ActivityTimeAccumulator(ko.observableArray([session]));
+        var accumulator = new ActivityTimeAccumulator(ko.observableArray([]));
         equal(accumulator._getTotalTime(activity)(), 0);
     });
 

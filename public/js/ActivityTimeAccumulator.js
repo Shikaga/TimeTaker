@@ -3,54 +3,68 @@ define(['js/TimeFormatter', 'js/TimeUtil'], function(TimeFormatter, TimeUtil) {
         this.sessions = sessions;
     }
 
+    ActivityTimeAccumulator.prototype._subscribe = function(sessions, observable) {
+        this._watchSessions(sessions(), observable);
+        this.sessions.subscribe(function() {
+            this._watchSessions(sessions(), observable);
+        }.bind(this))
+    }
+
+    ActivityTimeAccumulator.prototype._watchSessions = function(sessions, observable) {
+        observable(0);
+        sessions.forEach(function(session) {
+            var oldTimes = this._sumSessions(_.reject(sessions, function(sess) {return session === sess}));
+            observable(oldTimes + session.timer.elapsedTime());
+            session.timer.elapsedTime.subscribe(function(elapsedTime) {
+                observable(elapsedTime + oldTimes);
+            }.bind(this))
+        }.bind(this))
+    }
+
     ActivityTimeAccumulator.prototype._getTotalTime = function(activity) {
-        return ko.computed(function() {
-            return this._sumSessions(this._getAllActivity(activity));
-        }.bind(this));
+        var observable = new ko.observable();
+        this._subscribe(function() {return this._getAllActivity(activity)}.bind(this), observable);
+        return observable;
     }
 
     ActivityTimeAccumulator.prototype._getTotalTimeToday = function(activity) {
-        return ko.computed(function() {
-            return this._sumSessions(
-                _.filter(this._getAllActivity(activity), function(session) {
-                    return TimeUtil.prototype.getTodayTimestamp() < session.timer.startTimestamp() &&
-                        TimeUtil.prototype.getTomorrowTimestamp() > session.timer.startTimestamp()
-                })
-            )
-        }.bind(this))
+        var observable = new ko.observable();
+        this._subscribe(function() {
+            return _.filter(this._getAllActivity(activity), function(session) {
+                return TimeUtil.prototype.getTodayTimestamp() < session.timer.startTimestamp() &&
+                    TimeUtil.prototype.getTomorrowTimestamp() > session.timer.startTimestamp()
+            })}.bind(this), observable);
+        return observable;
     }
 
     ActivityTimeAccumulator.prototype._getTotalTimeThisWeek = function(activity) {
-        return ko.computed(function() {
-            return this._sumSessions(
-                _.filter(this._getAllActivity(activity), function(session) {
-                    return TimeUtil.prototype.getFirstOfWeekTimestamp() < session.timer.startTimestamp() &&
-                        TimeUtil.prototype.getFirstOfNextWeekTimestamp() > session.timer.startTimestamp()
-                })
-            )
-        }.bind(this))
+        var observable = new ko.observable();
+        this._subscribe(function() {
+            return _.filter(this._getAllActivity(activity), function(session) {
+                return TimeUtil.prototype.getFirstOfWeekTimestamp() < session.timer.startTimestamp() &&
+                    TimeUtil.prototype.getFirstOfNextWeekTimestamp() > session.timer.startTimestamp()
+            })}.bind(this), observable);
+        return observable;
     }
 
     ActivityTimeAccumulator.prototype._getTotalTimeThisMonth = function(activity) {
-        return ko.computed(function() {
-            return this._sumSessions(
-                _.filter(this._getAllActivity(activity), function(session) {
-                    return TimeUtil.prototype.getFirstOfMonthTimestamp() < session.timer.startTimestamp() &&
-                        TimeUtil.prototype.getFirstOfNextMonthTimestamp() > session.timer.startTimestamp()
-                })
-            )
-        }.bind(this))
+        var observable = new ko.observable();
+        this._subscribe(function() {
+            return _.filter(this._getAllActivity(activity), function(session) {
+                return TimeUtil.prototype.getFirstOfMonthTimestamp() < session.timer.startTimestamp() &&
+                    TimeUtil.prototype.getFirstOfNextMonthTimestamp() > session.timer.startTimestamp()
+            })}.bind(this), observable);
+        return observable;
     }
 
     ActivityTimeAccumulator.prototype._getTotalTimeThisYear = function(activity) {
-        return ko.computed(function() {
-            return this._sumSessions(
-                _.filter(this._getAllActivity(activity), function(session) {
-                    return TimeUtil.prototype.getFirstOfYearTimestamp() < session.timer.startTimestamp() &&
-                        TimeUtil.prototype.getFirstOfNextYearTimestamp() > session.timer.startTimestamp()
-                })
-            )
-        }.bind(this))
+        var observable = new ko.observable();
+        this._subscribe(function() {
+            return _.filter(this._getAllActivity(activity), function(session) {
+                return TimeUtil.prototype.getFirstOfYearTimestamp() < session.timer.startTimestamp() &&
+                    TimeUtil.prototype.getFirstOfNextYearTimestamp() > session.timer.startTimestamp()
+            })}.bind(this), observable);
+        return observable;
     }
 
     ActivityTimeAccumulator.prototype._sumSessions = function(sessions) {
