@@ -129,7 +129,7 @@
 			<span data-bind="text: timer.output"></span>
 			<div></div>
 			<br />
-			<div id="freeform-main" style="overflow-y: auto" data-bind="with: textLogHandler">
+			<div data-bind="with: textLogHandler, scrollOnUpdate: textLogHandler.sessions" id="freeform-main" style="overflow-y: auto">
 
 				<div>
 					<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">

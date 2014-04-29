@@ -1,6 +1,7 @@
 x = 0;
 y = 0;
 
+
 function resizeTextlogArea() {
     var minHeight = 30; // Define a minimum height for the middle div
 
@@ -17,6 +18,25 @@ function resizeTextlogArea() {
 
     $(document).ready(resizeMiddle);
     $(window).resize(resizeMiddle);
+}
+
+ko.bindingHandlers.scrollOnUpdate = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        z = element;
+        var sessions = allBindingsAccessor().scrollOnUpdate;
+        sessions.subscribe(function() {
+            console.log('!');
+            setTimeout(function() {
+                element.scrollTop = element.scrollHeight;
+                console.log(element.scrollTop, element.scrollHeight);
+            },0);
+        })
+    },
+    update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        setTimeout(function() {
+            element.scrollTop = element.scrollHeight;
+        },0);
+    }
 }
 
 ko.bindingHandlers.executeOnEnter = {
