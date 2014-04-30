@@ -150,13 +150,13 @@
 
 					</div>
 				</div>
-				<div id="freeform-footer" class="navbar navbar-fixed-bottom container">
-					<div class="input-group">
-						<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog, enable: textFieldEnabled">
+			</div>
+			<div data-bind="with: textLogHandler" id="freeform-footer" class="navbar navbar-fixed-bottom container">
+				<div class="input-group">
+					<input autofocus="1" type="text" class="form-control" data-bind="value: textField, valueUpdate: 'afterkeydown', executeOnEnter: addLog, enable: textFieldEnabled">
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button" data-bind="click: addLog, enable: textFieldEnabled">Log</button>
 						</span>
-					</div>
 				</div>
 			</div>
 		</div>
