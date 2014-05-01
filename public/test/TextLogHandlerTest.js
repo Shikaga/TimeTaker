@@ -98,7 +98,6 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
         equal(tlh.activeSession.logs().length, 0);
     });
 
-
     test( "textLogHandler gets timestamp when log added", function() {
         var mockSessions = ko.observableArray();
         var tlh = new TextLogHandler(mockSessions);
@@ -108,6 +107,17 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
         tlh.textField('Log1');
         tlh.addLog();
         equal(tlh.activeSession.logs()[0].timestamp(), "MockTimestamp");
+    });
+
+    test( "textLogHandler can delete session", function() {
+        var mockSessions = ko.observableArray();
+        var tlh = new TextLogHandler(mockSessions);
+
+        tlh.addSession(mockActivity);
+        equal(mockSessions().length, 1);
+
+        tlh.deleteSession(mockSessions()[0]);
+        equal(mockSessions().length, 0);
     });
 
 });

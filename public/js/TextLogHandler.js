@@ -24,6 +24,9 @@ define(['js/TimestampGenerator', 'js/Timer', 'js/Session', 'js/Log'], function(T
                 }
 
             }.bind(this);
+            this.deleteSession = function(session) {
+                this.sessions.remove(session);
+            }
         }
         return TextLogHandler;
 });
