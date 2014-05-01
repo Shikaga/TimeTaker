@@ -135,11 +135,17 @@
 					<div data-bind="foreach: sessions" style="padding-top: 20px">
 						<div class="panel panel-default">
 							<div data-bind="style: {backgroundColor: activity.color}"  class="panel-heading">
-								<h3 class="panel-title"><span data-bind="text: activity.name"></span> : <span data-bind="text: timer.startTime"></span> - <span data-bind="text: timer.endTime"></span></h3>
+								<h3 class="panel-title">
+									<span data-bind="text: activity.name"></span>
+									:
+									<span data-bind="text: timer.startTime"></span>
+									-
+									<span data-bind="text: timer.endTime"></span>
+									<span data-bind="click: function() {$parent.deleteSession($data)}" class="navbar-right glyphicon glyphicon-remove"></span>
+								</h3>
 
 							</div>
 							<div class="panel-body">
-								<button class="btn btn-danger navbar-right" data-bind="click: function() {$parent.deleteSession($data)}">Delete</button>
 								<div data-bind="foreach: {data: logs, afterRender: function() {
 									var freeformMain = document.getElementById('freeform-main');
 									freeformMain.scrollTop = freeformMain.scrollHeight;
