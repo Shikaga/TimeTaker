@@ -132,7 +132,7 @@
 			<div data-bind="with: textLogHandler, scrollOnUpdate: textLogHandler.sessions" id="freeform-main" style="overflow-y: auto">
 
 				<div>
-					<div data-bind="foreach: sessions" style="padding-top: 20px; padding-bottom: 35px">
+					<div data-bind="foreach: sessions" style="padding-top: 20px">
 						<div class="panel panel-default">
 							<div data-bind="style: {backgroundColor: activity.color}"  class="panel-heading">
 								<h3 class="panel-title"><span data-bind="text: activity.name"></span> : <span data-bind="text: timer.startTime"></span> - <span data-bind="text: timer.endTime"></span></h3>
@@ -140,7 +140,10 @@
 							</div>
 							<div class="panel-body">
 								<button class="btn btn-danger navbar-right" data-bind="click: function() {$parent.deleteSession($data)}">Delete</button>
-								<div data-bind="foreach: logs">
+								<div data-bind="foreach: {data: logs, afterRender: function() {
+									var freeformMain = document.getElementById('freeform-main');
+									freeformMain.scrollTop = freeformMain.scrollHeight;
+								}}">
 									<p>
 										<span data-bind="text: timestamp"></span>
 										<span>:</span>
