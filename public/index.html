@@ -27,6 +27,32 @@
 	<!--</div>-->
 </div>
 <div id="app" style="display: none">
+	<div data-bind="with: goalsModal" class="modal fade" id="goalsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Set Goals</h4>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<span style="min-width: 200px" class="input-group-addon">Hours per Weekday</span>
+						<input data-bind="value: weekdayHours" type="text" class="form-control" placeholder="None">
+					</div>
+					<br>
+					<div class="input-group">
+						<span style="min-width: 200px" class="input-group-addon">Hours per Week</span>
+						<input data-bind="value: weekHours" type="text" class="form-control" placeholder="None">
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button data-bind="click: cancel, enable: cancelButtonEnabled" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button data-bind="click: save, enable: saveButtonEnabled" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="header" data-bind="with: tabHandler">
 		<ul class="nav nav-tabs">
 			<li data-bind="css: {active: weekVisible}"><a href="#" data-bind="click: weekClicked">Week View</a></li>
@@ -69,6 +95,9 @@
 						Color
 						<span class="caret"></span>
 					</button>
+					<button data-bind="click: setGoals" type="button" class="btn btn-default">
+						Set Goals
+					</button>
 					<ul class="dropdown-menu" data-bind="foreach: colors">
 						<li data-bind="style: {backgroundColor: $data}">
 							<a href="#" data-bind="text: $index, click: function() {$parent.setColor($data)}"></a>
@@ -84,22 +113,27 @@
 						<tr>
 							<td>Today</td>
 							<td data-bind="text: totalTimeToday"></td>
+							<td data-bind="text: weekdayHoursGoal"></td>
 						</tr>
 						<tr>
 							<td>This Week</td>
 							<td data-bind="text: totalTimeThisWeek"></td>
+							<td data-bind="text: weekHoursGoal"></td>
 						</tr>
 						<tr>
 							<td>This Month</td>
 							<td data-bind="text: totalTimeThisMonth"></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>This Year</td>
 							<td data-bind="text: totalTimeThisYear"></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>All</td>
 							<td data-bind="text: totalTime"></td>
+							<td></td>
 						</tr>
 						</tbody>
 					</table>
@@ -183,6 +217,11 @@
 			this.sessions = ko.observableArray();
 			window.globals = {};
 			window.globals.activityTimeAccumulator = new ActivityTimeAccumulator(this.sessions);
+			window.goalsModal = ko.observable(null);
+			window.goalsModal.subscribe(function() {
+				console.log('!!');
+				$('#goalsModal').modal()
+			})
 			this.localStorageSerializer = new LocalStorageSerializer(this.activities, this.sessions);
 			this.freeformTimerHandler = new FreeformTimerHandler(this.localStorageSerializer.getActivities(),this.localStorageSerializer.getSessions());
 			this.activityHandler = new ActivityHandler(this.localStorageSerializer.getActivities());

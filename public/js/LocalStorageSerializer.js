@@ -18,6 +18,8 @@ define(['js/Activity', 'js/Session'], function(Activity, Session) {
             this._listenTo(activity.name);
             this._listenTo(activity.description);
             this._listenTo(activity.color);
+            this._listenTo(activity.weekHoursGoal);
+            this._listenTo(activity.weekdayHoursGoal);
         }.bind(this))
         this.sessions().forEach(function(session) {
             this._listenTo(session.timer.endTime);

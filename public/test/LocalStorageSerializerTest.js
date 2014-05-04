@@ -107,6 +107,19 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
         equal(serializedArray[0].color, 'color');
     });
 
+
+
+
+
+
+
+
+
+
+
+
+    // SESSSIONS
+
     test( "serializer returns no sessions if none exist", function() {
         mockLocalStorage = new MockLocalStorage();
 
