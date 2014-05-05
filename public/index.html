@@ -95,15 +95,15 @@
 						Color
 						<span class="caret"></span>
 					</button>
-					<button data-bind="click: setGoals" type="button" class="btn btn-default">
-						Set Goals
-					</button>
 					<ul class="dropdown-menu" data-bind="foreach: colors">
 						<li data-bind="style: {backgroundColor: $data}">
 							<a href="#" data-bind="text: $index, click: function() {$parent.setColor($data)}"></a>
 						</li>
 					</ul>
 				</div>
+				<button data-bind="click: setGoals" type="button" class="btn btn-default">
+					Set Goals
+				</button>
 				<div></div><br/>
 				<div class="panel panel-default">
 					<!-- Default panel contents -->
