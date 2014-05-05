@@ -7,6 +7,7 @@ define(['js/Timer', 'js/Log'], function(Timer, Log) {
 
     Session.prototype.addLog = function(message) {
         this.logs.push(new Log(message));
+        emitr.trigger('userevent')
     }
 
     Session.prototype.serialize = function() {
