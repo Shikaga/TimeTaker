@@ -211,10 +211,20 @@
 
 <script>
 	resizeTextlogArea();
-	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/ActivityTimeAccumulator.js', 'js/TabHandler', 'js/LocalStorageSerializer'], function(FreeformTimerHandler, ActivityHandler, ActivityTimeAccumulator, TabHandler, LocalStorageSerializer) {
+	require(['js/FreeformTimerHandler', 'js/ActivityHandler', 'js/ActivityTimeAccumulator.js', 'js/TabHandler', 'js/LocalStorageSerializer', 'js/InactivityNotifier','lib/emitr.js'], function(FreeformTimerHandler, ActivityHandler, ActivityTimeAccumulator, TabHandler, LocalStorageSerializer, InactivityNotifier, Emitr) {
 		function TimeTaker() {
 			this.activities = ko.observableArray();
 			this.sessions = ko.observableArray();
+			window.emitr = new Emitr();
+			window.emitr.on('notify', function(message) {
+				var notification = new Notification(message);
+				notification.onclose = function() {
+					window.emitr.trigger('userevent');
+				}
+				notification.onclick = function() {
+					window.emitr.trigger('userevent');
+				}
+			})
 			window.globals = {};
 			window.globals.activityTimeAccumulator = new ActivityTimeAccumulator(this.sessions);
 			window.goalsModal = ko.observable(null);
@@ -226,6 +236,7 @@
 			this.freeformTimerHandler = new FreeformTimerHandler(this.localStorageSerializer.getActivities(),this.localStorageSerializer.getSessions());
 			this.activityHandler = new ActivityHandler(this.localStorageSerializer.getActivities());
 			this.tabHandler = new TabHandler();
+			this.inactivityNotifier = new InactivityNotifier();
 		}
 		tt = new TimeTaker();
 		ko.applyBindings(tt,  document.body)

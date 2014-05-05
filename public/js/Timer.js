@@ -11,7 +11,7 @@ define(['js/TimeFormatter'], function(TimeFormatter) {
             return this.endTimestamp() - this.startTimestamp()
         }.bind(this))
         this.timerInterval = null;
-		this.output = ko.observable(this.getTimeOutput(0));
+        this.output = ko.observable(this.getTimeOutput(0));
 
         this.startTime = ko.computed(function() {
             return this.getFormattedTime(this.startTimestamp())
