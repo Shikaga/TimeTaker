@@ -94,6 +94,23 @@ require(['../js/Activity', '../js/GoalHandler'], function(Activity, GoalHandler)
         equal(goalHandler.visible(), false);
     });
 
+
+    test( "You can save a half hour", function() {
+        var activity = new Activity();
+        activity.weekdayHoursGoal();
+        activity.weekHoursGoal();
+
+        var goalHandler = new GoalHandler(activity);
+        goalHandler.weekdayHours("0.5");
+        equal(goalHandler.saveButtonEnabled(), true);
+        goalHandler.save();
+
+
+        equal(activity.weekdayHoursGoal(), 0.5);
+        equal(activity.weekHoursGoal(), null);
+        equal(goalHandler.visible(), false);
+    });
+
     test( "cancelling does not set activity hours", function() {
         var activity = new Activity();
         activity.weekdayHoursGoal(1);

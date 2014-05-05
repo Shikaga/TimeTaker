@@ -5,7 +5,7 @@ define([], function() {
 
         this.visible = ko.observable(true);
         this.getNumber = function(observable) {
-            var int = Number.parseInt(observable());
+            var int = Number.parseFloat(observable());
             if (isNaN(int)) return null;
             return int;
         }
