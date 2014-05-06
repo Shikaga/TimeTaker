@@ -12,6 +12,8 @@ require(['../js/TextLogHandler'], function(TextLogHandler) {
     mockActivity = {
         name: "MockAtivity"
     }
+    emitr = {trigger: function(){}}
+    globals = {}
     ko.applyBindings = sinon.spy();
 
     test( "textLogHandler init", function() {

@@ -9,8 +9,6 @@ require.config({
 
 require(['../js/Activity', 'MockGlobals'], function(Activity, MockGlobals) {
     globals = MockGlobals;
-    mockNode = sinon.spy();
-    ko.applyBindings = sinon.spy();
 
     test( "activity starts with first color", function() {
         var activity = new Activity();

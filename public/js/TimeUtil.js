@@ -52,5 +52,13 @@ define([], function() {
         return beginningOfYear.getTime();
     }
 
+    TimeUtil.prototype.getDateStamp = function(timestamp) {
+        var date = new Date(timestamp);
+        function getOinFront(number) {
+            return String(number + 100).substr(1);
+        }
+        return getOinFront(date.getDate()) + getOinFront(date.getMonth()+1) + date.getFullYear();
+    }
+
     return TimeUtil;
 })

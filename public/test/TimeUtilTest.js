@@ -3,7 +3,9 @@ require.config({
         '*': {
             'js/TimestampGenerator': 'MockTimestampGenerator',
             'js/TextLogHandler': '../js/TextLogHandler',
-            'js/TimeFormatter': '../js/TimeFormatter'
+            'js/TimeFormatter': '../js/TimeFormatter',
+            'js/Log': '../js/Log',
+            'js/Timer': '../js/Timer'
         }
     }
 });
@@ -100,5 +102,11 @@ require(['../js/TimeUtil'], function(TimeUtil) {
         equal(firstOfNextMonthTimestamp, 63068400000) // 00:00:00 1/1/1972
 
         fakeClock.restore();
+    });
+
+    test( "datestamp", function() {
+        equal(TimeUtil.prototype.getDateStamp(0), "01011970"); // 00:00:00 1/1/1972
+        equal(TimeUtil.prototype.getDateStamp(61532400000), "14121971"); //05:20:00 14/12/1971
+        equal(TimeUtil.prototype.getDateStamp(63068400000), "01011972"); // 00:00:00 1/1/1972
     });
 });
