@@ -1,13 +1,5 @@
-require.config({
-    map: {
-        '*': {
-            "js/ColorPalette": "../js/ColorPalette",
-            "js/GoalHandler": "../js/GoalHandler"
-        }
-    }
-});
 
-require(['../js/InactivityNotifier', 'MockGlobals', '../lib/emitr'], function(InactivityNotifier, MockGlobals, Emitr) {
+require(['js/InactivityNotifier', 'test/MockGlobals', 'lib/emitr'], function(InactivityNotifier, MockGlobals, Emitr) {
     globals = MockGlobals;
     emitr = new Emitr();
     mockNode = sinon.spy();

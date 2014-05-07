@@ -1,13 +1,4 @@
-require.config({
-    map: {
-        '*': {
-            'js/Activity': '../js/Activity',
-            'js/Session': '../js/Session'
-        }
-    }
-});
-
-require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], function(LocalStorageSerializer, Activity, Session) {
+require(['js/LocalStorageSerializer', 'js/Activity', 'js/Session'], function(LocalStorageSerializer, Activity, Session) {
 
     var MockLocalStorage = function() {
         this.getItem = localStorage.getItem = sinon.stub();
@@ -132,7 +123,7 @@ require(['../js/LocalStorageSerializer', '../js/Activity', '../js/Session'], fun
     test( "sessions are linked to their activities", function() {
         mockLocalStorage = new MockLocalStorage();
         mockLocalStorage.getItem.withArgs('activities').returns(JSON.stringify([{name: 'Activity1', description: 'Description1', color: '#111111', id: 'activityId'}]));
-        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs: [{text: 'example1', timestamp: 0}]}]));
+        mockLocalStorage.getItem.withArgs('sessions').returns(JSON.stringify([{activityId: 'activityId', logs: [{text: 'example1', timestamp: 0}], timer: {start: 0, end: 60000}}]));
 
         var lss = new LocalStorageSerializer(ko.observableArray(),ko.observableArray());
         var activities = lss.getActivities();

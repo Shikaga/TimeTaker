@@ -1,38 +1,36 @@
-require.config({
-    map: {
-        '*': {
-            'js/TimestampGenerator': 'MockTimestampGenerator',
-            'js/Timer': 'MockTimer',
-            'js/Log': '../js/Log'
-        }
-    }
-});
+require(['../lib/squire', 'test/MockTimer', 'test/MockTimestampGenerator'], function(Squire, MockTimer, MockTimestampGenerator) {
 
-require(['../js/Log'], function(Log) {
+//    globals = MockGlobals;
+    var squire = new Squire();
+    squire.mock('js/Timer', MockTimer);
+    squire.mock('js/TimestampGenerator', MockTimestampGenerator);
 
-    test("new log includes timestamp", function() {
-        var log = new Log("logMessage");
-        equal(log.text(), "logMessage");
-        equal(log.timestamp(), "MockTimestamp");
-    })
+    squire.require(['js/Log'], function(Log) {
 
-    test("serialize", function() {
-        var log = new Log("logMessage");
-
-        var serial = log.serialize();
-        equal(serial.text, "logMessage");
-        equal(serial.timestamp, "MockTimestamp");
-    })
-
-    test("deserialize", function() {
-        var log = new Log();
-
-        log.deserialize({
-            text: "logMessage",
-            timestamp: "logMessage"
+        test("new log includes timestamp", function() {
+            var log = new Log("logMessage");
+            equal(log.text(), "logMessage");
+            equal(log.timestamp(), "MockTimestamp");
         })
 
-        equal(log.text(), "logMessage");
-        equal(log.timestamp(), "logMessage");
-    })
+        test("serialize", function() {
+            var log = new Log("logMessage");
+
+            var serial = log.serialize();
+            equal(serial.text, "logMessage");
+            equal(serial.timestamp, "MockTimestamp");
+        })
+
+        test("deserialize", function() {
+            var log = new Log();
+
+            log.deserialize({
+                text: "logMessage",
+                timestamp: "logMessage"
+            })
+
+            equal(log.text(), "logMessage");
+            equal(log.timestamp(), "logMessage");
+        });
+    });
 });

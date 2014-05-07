@@ -1,12 +1,5 @@
-require.config({
-    map: {
-        '*': {
-            'js/Activity': '../js/Activity'
-        }
-    }
-});
-
-require(['../js/ActivitySelector', '../js/Activity'], function(ActivitySelector, Activity) {
+require(['js/ActivitySelector', 'js/Activity', 'test/MockGlobals'], function(ActivitySelector, Activity, MockGlobals) {
+    globals = MockGlobals;
     mockActivities = ko.observableArray([new Activity(), new Activity()]);
 
     test( "ActivitySelector init", function() {

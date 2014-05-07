@@ -1,17 +1,5 @@
-require.config({
-	map: {
-		'*': {
-			'js/TimestampGenerator': 'MockTimestampGenerator',
-            'js/TextLogHandler': '../js/TextLogHandler',
-            'js/Timer': '../js/Timer'
-		}
-	}
-});
-
-require(['../js/FreeformTimerHandler'], function(FreeformTimerHandler) {
-	mockNode = sinon.spy();
-	ko.applyBindings = sinon.spy();
-    mockSessions = ko.observableArray();
+require(['js/FreeformTimerHandler'], function(FreeformTimerHandler) {
+	mockSessions = ko.observableArray();
     mockActivities = ko.observableArray([{name: 'actvity1'}, {name: 'activity2'}]);
 
 	test( "freeformTimerHandler init", function() {
